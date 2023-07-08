@@ -1,30 +1,30 @@
 package com.service.point.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
-
 
 @Getter
 @Setter
 @Entity
 @Table
-public class User {
+public class Order {
     @Id
     @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
+            name = "order_sequence",
+            sequenceName = "order_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = SEQUENCE,
-            generator = "user_sequence"
+            generator = "order_sequence"
     )
     @Column(
             name = "id"
     )
     private Long id;
-    private String name;
-    private String phone;
+    @ManyToOne
+    private User user;
 }
