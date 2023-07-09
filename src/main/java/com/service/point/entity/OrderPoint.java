@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Getter
 @Setter
 @Entity
-@Table
+@Table(name = "order_points")
 public class OrderPoint {
     @Id
     @SequenceGenerator(
@@ -26,5 +28,5 @@ public class OrderPoint {
     )
     private Long id;
     @OneToMany
-    private Order order;
+    private List<Order> orders;
 }

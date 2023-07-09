@@ -9,7 +9,7 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
 @Getter
 @Setter
 @Entity
-@Table
+@Table(name = "orders")
 public class Order {
     @Id
     @SequenceGenerator(
