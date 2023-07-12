@@ -1,10 +1,16 @@
 package com.service.point.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import static jakarta.persistence.GenerationType.SEQUENCE;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -12,19 +18,21 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
 @Table(name = "orders")
 public class Order {
     @Id
-    @SequenceGenerator(
-            name = "order_sequence",
-            sequenceName = "order_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "order_sequence"
-    )
-    @Column(
-            name = "id"
-    )
-    private Long id;
+    @GeneratedValue
+    @Column(unique = true)
+    private UUID id;
     @ManyToOne
     private User user;
+    @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+    private List<String> positions;
+    @NotNull
+    private Long cost;
+    private Date data = new Date();
+    @ElementCollection
+    @MapKeyColumn(name = "history")
+    @Column(name = "history_value")
+    @CollectionTable(name = "history_attributes", joinColumns = @JoinColumn(name = "order_id"))
+    @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+    @JsonPropertyOrder({"place", "status"})
+    private Map<String, Status> history;
 }
